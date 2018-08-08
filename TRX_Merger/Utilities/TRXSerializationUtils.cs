@@ -53,6 +53,7 @@ namespace TRX_Merger.Utilities
                                          new XAttribute("id", td.Id),
                                          new XAttribute("name", td.Name),
                                          new XAttribute("storage", td.Storage),
+                                         new XElement("Description", td.Description.desc),
                                          new XElement("Execution",
                                             new XAttribute("id", td.Execution.Id)),
                                          new XElement("TestMethod",
@@ -254,6 +255,7 @@ namespace TRX_Merger.Utilities
                 var id = def.GetAttributeValue("id");
                 var Execution = DeserializeExecution(def);
                 var TestMethod = DeserializeTestMethod(def);
+                var TestDescription = DeserializeDescription(def);
 
                 result.Add(new UnitTest
                 {
@@ -261,12 +263,25 @@ namespace TRX_Merger.Utilities
                     Name = name,
                     Storage = storage,
                     Execution = Execution,
-                    TestMethod = TestMethod
+                    TestMethod = TestMethod,
+                    Description = TestDescription
                 });
 
             }
 
             return result;
+        }
+
+        private static Description DeserializeDescription(XElement unitTest)
+        {
+            var desc = unitTest.Descendants(ns + "Description").FirstOrDefault();
+            if (desc == null)
+                return null;
+
+            return new Description
+            {
+                desc = desc.Value,
+            };
         }
 
         private static Execution DeserializeExecution(XElement unitTest)

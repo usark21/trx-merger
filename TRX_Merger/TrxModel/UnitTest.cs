@@ -13,6 +13,7 @@ namespace TRX_Merger.TrxModel
         public string Storage { get; set; }
         public Execution Execution { get; set; }
         public TestMethod TestMethod { get; set; }
+        public Description Description { get; set; }
     }
 
 }
